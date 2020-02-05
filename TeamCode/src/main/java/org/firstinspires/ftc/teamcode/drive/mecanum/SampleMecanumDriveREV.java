@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -45,14 +47,14 @@ public class SampleMecanumDriveREV extends SampleMecanumDriveBase {
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = hardwareMap.get(DcMotorEx.class, "motorFL");
+        leftRear = hardwareMap.get(DcMotorEx.class, "motorBL");
+        rightRear = hardwareMap.get(DcMotorEx.class, "motorBR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "motorFR");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotor motor : motors) {
             if (RUN_USING_ENCODER) {
                 motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
@@ -64,6 +66,8 @@ public class SampleMecanumDriveREV extends SampleMecanumDriveBase {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
